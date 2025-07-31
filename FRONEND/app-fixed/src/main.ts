@@ -10,7 +10,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(appRoutes),
-    provideAnimations(),
+    provideAnimations(), // ✅ Esto es suficiente
     provideToastr(),
   ]
 }).catch(err => console.error(err));

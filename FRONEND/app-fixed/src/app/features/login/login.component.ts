@@ -1,6 +1,6 @@
-import { Component,inject  } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
@@ -10,55 +10,53 @@ import { ToastrService, ToastrModule } from 'ngx-toastr';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule, ReactiveFormsModule,ToastrModule]
+  imports: [CommonModule, ReactiveFormsModule, ToastrModule]
 })
-export class LoginComponent {
-  form: FormGroup;
+export class LoginComponent implements OnInit {
+  form!: FormGroup;
 
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
-  private toastr = inject(ToastrService); // 👈 inyecta el servicio
+  private toastr = inject(ToastrService);
 
-  constructor() {
-    this.form = this.fb.group({
-      email: [''],
-      password: ['']
-    });
-  }
-
-
-
-   ngOnInit(): void {
-    this.initForm();
-  }
-
-
- private initForm(): void {
+  ngOnInit(): void {
     this.form = this.fb.group({
       email: ['admin@email.com', [Validators.required, Validators.email]],
-      password: ['Password123!', Validators.required]
+      password: ['Password123!', [Validators.required]]
     });
   }
 
-submit() {
-  this.auth.login(this.form.value).subscribe({
+  submit(): void {
+  if (this.form.invalid) {
+    this.toastr.error('Completa los campos requeridos correctamente', 'Formulario inválido');
+    return;
+  }
+
+  const formValue = this.form.value;
+  const payload = {
+    email: formValue.email,
+    password: btoa(formValue.password) // 👈 codifica la contraseña
+  };
+
+  console.log('📤 Enviando datos de login:', payload);
+
+  this.auth.login(payload).subscribe({
     next: (res) => {
+      console.log('✅ Respuesta de login:', res);
       if (res.succeeded && res.data) {
-        // Redirige al dashboard y pasa el mensaje por navigation state
-               this.toastr.success('Inicio de sesión exitoso', 'Éxito'); // ✅ toast
-          this.router.navigate(['/dashboard']);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
+        this.toastr.success('Inicio de sesión exitoso', 'Éxito');
+        this.router.navigate(['/dashboard']);
       } else {
-      this.toastr.error(res.messages?.[0] || 'Credenciales incorrectas', 'Error'); // ✅ toast
+        this.toastr.error(res.messages?.[0] || 'Credenciales incorrectas', 'Error de autenticación');
       }
     },
     error: (err) => {
-        this.toastr.error(err.message || 'Error de conexión al servidor', 'Error');
+      console.error('❌ Error durante login:', err);
+      this.toastr.error(err.message || 'Error de conexión al servidor', 'Error');
     }
   });
-}
-
-
-
-
+  }
 }

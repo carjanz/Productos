@@ -1,24 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject,OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { RegisterUser } from 'src/app/core/interfaces/register-user.interface';
 import { AppAlertService } from '../../core/services/app-alert.service';
-import { ToastrService } from 'ngx-toastr'; 
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { SuccessModalComponent } from './success-modal.component';
 
 @Component({
-  standalone: true,
   selector: 'app-register',
+  standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule
+  ]
 })
 export class RegisterComponent implements OnInit {
   valForm!: FormGroup;
   errorMsg: string | null = null;
   successMsg: string | null = null;
+
   private toastr = inject(ToastrService);
+  private dialog = inject(MatDialog);
 
   constructor(
     private fb: FormBuilder,
@@ -29,9 +39,8 @@ export class RegisterComponent implements OnInit {
     this.createForm();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
-  // Crear formulario con validaciones
   private createForm(): void {
     this.valForm = this.fb.group({
       firstName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
@@ -43,65 +52,35 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-
-  // Envío del formulario
   submitForm(event: Event, value: RegisterUser): void {
     event.preventDefault();
-
-    // Marcar todos los campos como tocados para mostrar validaciones
     Object.values(this.valForm.controls).forEach(control => control.markAsTouched());
 
-    // Verificar si el formulario es válido
-    if (!this.valForm.valid) {
-      return; // No hacer nada, los errores se muestran en la vista
-    }
-    // Construir el payload
-    const payload: RegisterUser = {
-      ...this.valForm.value,
-      password: btoa(this.valForm.value.password) // Encriptar con base64
-    };
+    if (!this.valForm.valid) return;
 
-    // Enviar registro
-   this.auth.register(payload).subscribe({
-  next: () => {
-    this.successMsg = '✅ Registro completado. Iniciando sesión...';
+    // Codifica la contraseña a base64 y construye el payload
+  const plainPassword = this.valForm.value.password;
+  const payload: RegisterUser = {
+    ...this.valForm.value,
+    password: btoa(plainPassword) // 👈 codifica correctamente la contraseña
+  };
 
-    const loginPayload = {
-      email: payload.email,
-      password: payload.password
-    };
-      console.log(this.valForm.value.password) 
-    console.log(this.valForm) 
+    // Llama al servicio de registro
+  this.auth.register(payload).subscribe({
+    next: () => {
+      this.successMsg = '✅ Registro completado exitosamente.';
+      this.dialog.open(SuccessModalComponent, {
+        data: { message: this.successMsg }
+      }).afterClosed().subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+    },
+    error: (error) => {
+      this.successMsg = null;
+      this.errorMsg = error?.error?.message || '❌ Error al registrar. Intenta nuevamente.';
+      this.toastr.error(this.errorMsg ?? '❌ Error al registrar. Intenta nuevamente.', 'Error');
 
-      console.log("asi llego") 
-    console.log(loginPayload) 
-
-    this.auth.login(loginPayload).subscribe({
-      next: (res) => {
-        if (res.succeeded && res.data) {
-          this.toastr.success('Inicio de sesión exitoso', 'Éxito');
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.toastr.error(res.messages?.[0] || 'Credenciales incorrectas', 'Error');
-          //this.router.navigate(['/login']);
-        }
-      },
-      error: (err) => {
-        console.log(err);
-        this.toastr.error(err.message || 'Error de conexión al servidor', 'Error');
-        //this.router.navigate(['/login']);
       }
     });
-  },
- error: (error) => {
-    this.successMsg = null;
-    this.errorMsg = error?.error?.message || '❌ Error al registrar. Intenta nuevamente.';
-    this.toastr.error(this.errorMsg ?? '❌ Error al registrar. Intenta nuevamente.', 'Error');
   }
-});
-
- 
-
-  }
-
 }
