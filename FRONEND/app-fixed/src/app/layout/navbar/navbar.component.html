@@ -1,0 +1,8 @@
+<nav class="p-4 bg-white shadow-md flex justify-between items-center">
+  <a routerLink="/"><span class="text-xl font-bold">🚀 MiApp</span></a>
+  <div>
+    <a *ngIf="!isLoggedIn" routerLink="/login" class="mr-4">Login</a>
+    <a  *ngIf="!isLoggedIn" routerLink="/register">Register </a>
+    <a *ngIf="isLoggedIn" (click)="logout()">Logout</a>
+  </div>
+</nav>

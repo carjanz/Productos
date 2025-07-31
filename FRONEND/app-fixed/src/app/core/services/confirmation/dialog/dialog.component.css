@@ -1,0 +1,145 @@
+.fuse-confirmation-dialog-panel {
+  width: 480px;
+}
+
+.fuse-confirmation-dialog-panel2 {
+  width: 600px;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 10px !important;
+}
+
+.dialog-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.dismiss-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding-top: 1rem;
+  padding-right: 1rem;
+}
+
+.content-container {
+  display: flex;
+  padding: 1.5rem;
+  padding-bottom: 1rem;
+  flex-direction: row;
+  flex: 1 1 auto;
+  align-items: flex-start;
+}
+
+.icon-color-primary {
+  color: #01454f;
+  background-color: #00deff;
+}
+
+.icon-color-accent {
+  color: #ffc107;
+  background-color: #f6db8a;
+}
+
+.icon-color-warn {
+  color: rgb(217 119 6);
+  background-color: rgb(254 243 199);
+}
+
+.icon-color-basic {
+  color: rgb(75 85 99);
+  background-color: rgb(254 226 226);
+}
+
+.icon-color-info {
+  color: rgb(37 99 235);
+  background-color: rgb(219 234 254);
+}
+
+.icon-color-success {
+  color: rgb(34 197 94);
+  background-color: rgb(220 252 231);
+}
+
+.icon-color-warning {
+  color: rgb(217 119 6);
+  background-color: rgb(254 243 199);
+}
+
+.icon-color-error {
+  color: rgb(220 38 38);
+  background-color: rgb(254 226 226);
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  margin-right: 1rem;
+  padding: 10px;
+}
+
+.icon {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.text-container {
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text-container .title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 10px;
+  line-height: 2rem;
+  color: #656565;
+}
+
+.text-container .message {
+  font-size: 1rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: #656565;
+}
+
+.actions-container {
+  display: flex;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  background-color: #f9fafb;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dialog-container {
+    background: #1f1f1f;
+    color: #e5e7eb;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.text-container .title {
+    color: #fafafa;
+}
+
+.text-container .message {
+    color: #d1d5db;
+}
+
+.actions-container {
+    background-color: #f9fafb;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

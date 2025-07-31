@@ -1,0 +1,72 @@
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Internal layout -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<div *ngIf="layout() === 'internal'">
+
+  <fuse-loading-bar></fuse-loading-bar>
+  <div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-4">
+    <!-- Toast -->
+    <div *ngIf="showToast" class="mb-4 p-3 text-sm text-green-800 bg-green-100 rounded-lg border border-green-400 shadow">
+      {{ toastMessage }}
+    </div>
+
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-gray-600 mb-4" aria-label="Breadcrumb">
+      <ol class="list-none p-0 inline-flex">
+        <li class="flex items-center">
+          <a routerLink="/" class="text-blue-600 hover:underline">Inicio</a>
+          <svg class="w-4 h-4 mx-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </li>
+        <li><app-menu-dashboard></app-menu-dashboard></li>
+      </ol>
+    </nav>
+
+    <!-- Card Container -->
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- Loading bar -->
+
+
+
+     <footer class="footer">
+        <div class="container-fluid">
+          <div class="row text-muted">
+            <div class="col-6 text-start">
+              <p class="mb-0">
+                Roma - <a class="text-muted" href="#" target="_blank">Roma Finanzas</a>
+              </p>
+            </div>
+            <div class="col-6 text-end">
+
+            </div>
+          </div>
+        </div>
+      </footer>
+      </div>
+      
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Empty layout -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<div *ngIf="layout() === 'empty'">
+  <!-- Loading bar -->
+  <fuse-loading-bar></fuse-loading-bar>
+
+  <div class="full-height">
+    <router-outlet *ngIf="true"></router-outlet>
+  </div>
+</div>

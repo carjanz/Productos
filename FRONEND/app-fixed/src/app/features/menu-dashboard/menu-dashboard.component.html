@@ -1,0 +1,18 @@
+<ul class="menu">
+  <li (mouseenter)="hover = true" (mouseleave)="hover = false">
+    <a (click)="$event.preventDefault()">{{ options[selectedIndex] }}</a>
+    
+    <ul class="submenu" [class.show-submenu]="hover">
+      <ng-container *ngFor="let option of options; let i = index">
+        <li *ngIf="i !== selectedIndex">
+          <a 
+            [routerLink]="formatRoute(option)" 
+            routerLinkActive="active" 
+            (click)="selectOption(i); hover = false; $event.preventDefault()">
+            {{ option }}
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </li>
+</ul>

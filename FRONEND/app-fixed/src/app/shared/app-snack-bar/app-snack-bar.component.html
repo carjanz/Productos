@@ -1,0 +1,22 @@
+<div class="app-snack-bar-container container-{{ getIcon.type }}">
+
+  <!-- Ícono del tipo de notificación -->
+  <div class="icon-{{ getIcon.type }}">
+    <div class="app-snack-bar-default-icon">
+      <mat-icon [svgIcon]="getIcon.icon"></mat-icon>
+    </div>
+  </div>
+
+  <!-- Mensaje -->
+  <div class="app-snack-bar-content">
+    <div class="app-snack-bar-message message-{{ getIcon.type }}">
+      <span>{{ data.message }}</span>
+    </div>
+  </div>
+
+  <!-- Botón para cerrar -->
+  <button class="app-snack-bar-dismiss-button" mat-icon-button (click)="closeSnackbar()">
+    <mat-icon [svgIcon]="'heroicons_solid:x'"></mat-icon>
+  </button>
+
+</div>

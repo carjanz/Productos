@@ -1,0 +1,75 @@
+<div class="products-container">
+  <h2 class="text-2xl font-bold mb-4">🛕2 Lista de Productos</h2>
+
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="flex flex-col items-center justify-center py-6">
+    <div class="spinner mb-2"></div>
+    <p class="text-gray-600">Cargando productos...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="!cargando && error" class="bg-red-100 text-red-700 border border-red-300 p-4 rounded-md shadow-sm mb-4">
+    <div class="flex items-center space-x-2">
+      <span class="text-xl font-bold">❌</span>
+      <p class="flex-1">{{ error }}</p>
+    </div>
+    <button (click)="loadProducts()" class="mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-4 rounded">
+      Reintentar
+    </button>
+  </div>
+
+  <!-- Lista de productos -->
+  <div *ngIf="!cargando && !error">
+    <ng-container *ngIf="products as prodList; else noProducts">
+      <div *ngIf="prodList.length > 0; else noProducts">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div *ngFor="let product of products" class="product-card border p-4 rounded-md shadow hover:shadow-md transition">
+
+            <input *ngIf="product.editing" [(ngModel)]="product.name" class="border px-2 py-1 mb-1 w-full" />
+            <h3 *ngIf="!product.editing" class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+
+            <textarea *ngIf="product.editing" [(ngModel)]="product.description" class="border px-2 py-1 mb-1 w-full"></textarea>
+            <p *ngIf="!product.editing" class="text-sm text-gray-600 mb-2">
+              {{ product.description || 'Sin descripción disponible' }}
+            </p>
+
+            <div class="text-xs text-gray-500 mb-2">ID: {{ product.id }}</div>
+
+            <!-- Botones tipo semáforo -->
+            <div class="flex justify-between items-center mt-2">
+              <!-- Rojo - Eliminar -->
+              <button *ngIf="!product.editing" (click)="eliminarProducto(product.id)" class="bg-red-500 hover:bg-red-600 text-white rounded-full px-3 py-1 text-xs">🗑️</button>
+
+              <!-- Amarillo - Editar -->
+              <button (click)="toggleEditar(product)" class="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full px-3 py-1 text-xs">
+                {{ product.editing ? '💾' : '✏️' }}
+              </button>
+
+              <!-- Azul - Consultar -->
+              <button *ngIf="!product.editing" class="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-3 py-1 text-xs">🔍</button>
+
+              <!-- Naranja - Actualizar -->
+              <button *ngIf="!product.editing" (click)="abrirModal(product)" class="bg-orange-400 hover:bg-orange-500 text-black rounded-full px-3 py-1 text-xs">🧡</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noProducts>
+      <div class="no-products text-center text-gray-500 py-6">
+        <p>📦 No se encontraron productos disponibles.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Modal -->
+<!-- 🟠 Modal de actualización -->
+<app-actualizar-modal
+  *ngIf="modalActualizar?.visible && modalActualizar?.producto as producto"
+  [producto]="producto"
+  (actualizado)="actualizarEnLista($event)">
+  
+</app-actualizar-modal>
+

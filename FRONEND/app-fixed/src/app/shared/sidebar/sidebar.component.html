@@ -1,0 +1,19 @@
+<nav class="bg-white border-r border-gray-200 w-64 min-h-screen px-4 pt-6 hidden lg:block">
+  <ul class="space-y-2">
+    <li *ngFor="let module of modules">
+      <div *ngIf="isVisible(module.roles)" class="text-gray-600 font-semibold text-sm uppercase tracking-wide flex items-center gap-2 mb-1">
+        <span>{{ module.icon }}</span>
+        {{ module.name }}
+      </div>
+      <ul class="ml-6">
+        <li *ngFor="let child of module.children">
+          <ng-container *ngIf="isVisible(child.roles)">
+            <a  class="block py-1 px-2 rounded text-sm text-gray-500 hover:bg-gray-100 hover:text-indigo-600">
+              {{ child.name }}
+            </a>
+          </ng-container>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>

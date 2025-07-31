@@ -1,0 +1,71 @@
+<div class="min-h-screen bg-[#f9f9ff] flex items-center justify-center">
+  <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-center text-2xl font-bold text-purple-700 mb-6">Crear cuenta</h2>
+
+    <form [formGroup]="valForm" (ngSubmit)="submitForm($event, valForm.value)" novalidate>
+  <!-- Nombres -->
+  <div class="mb-3">
+    <label for="firstName" class="form-label">Nombre</label>
+    <input id="firstName" type="text" formControlName="firstName" class="form-control" placeholder="Ingresa tu nombre">
+    <div *ngIf="valForm.get('firstName')?.touched && valForm.get('firstName')?.invalid" class="text-danger mt-1">
+      <small *ngIf="valForm.get('firstName')?.errors?.['required']">El nombre es obligatorio.</small>
+      <small *ngIf="valForm.get('firstName')?.errors?.['minlength']">Mínimo 2 caracteres.</small>
+      <small *ngIf="valForm.get('firstName')?.errors?.['maxlength']">Máximo 20 caracteres.</small>
+    </div>
+  </div>
+
+  <!-- Apellidos -->
+  <div class="mb-3">
+    <label for="lastName" class="form-label">Apellido</label>
+    <input id="lastName" type="text" formControlName="lastName" class="form-control" placeholder="Ingresa tu apellido">
+    <div *ngIf="valForm.get('lastName')?.touched && valForm.get('lastName')?.invalid" class="text-danger mt-1">
+      <small *ngIf="valForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</small>
+    </div>
+  </div>
+
+  <!-- Correo -->
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo electrónico</label>
+    <input id="email" type="email" formControlName="email" class="form-control" placeholder="usuario@correo.com">
+    <div *ngIf="valForm.get('email')?.touched && valForm.get('email')?.invalid" class="text-danger mt-1">
+      <small *ngIf="valForm.get('email')?.errors?.['required']">El correo es obligatorio.</small>
+      <small *ngIf="valForm.get('email')?.errors?.['email']">Correo inválido.</small>
+    </div>
+  </div>
+
+  <!-- Contraseña -->
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input id="password" type="password" formControlName="password" class="form-control" placeholder="********">
+    <div *ngIf="valForm.get('password')?.touched && valForm.get('password')?.invalid" class="text-danger mt-1">
+      <small *ngIf="valForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</small>
+      <small *ngIf="valForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres.</small>
+      <small *ngIf="valForm.get('password')?.errors?.['maxlength']">Máximo 20 caracteres.</small>
+      <small *ngIf="valForm.get('password')?.errors?.['pattern']">
+        Debe contener al menos 1 mayúscula, 1 minúscula y 1 número.
+      </small>
+    </div>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="mb-3">
+    <label for="phoneNumber" class="form-label">Teléfono</label>
+    <input id="phoneNumber" type="text" formControlName="phoneNumber" class="form-control" placeholder="1234567890">
+    <div *ngIf="valForm.get('phoneNumber')?.touched && valForm.get('phoneNumber')?.invalid" class="text-danger mt-1">
+      <small *ngIf="valForm.get('phoneNumber')?.errors?.['required']">El teléfono es obligatorio.</small>
+      <small *ngIf="valForm.get('phoneNumber')?.errors?.['pattern']">Debe contener 10 dígitos numéricos.</small>
+    </div>
+  </div>
+
+
+  <!-- Botón de envío -->
+  <button type="submit" class="btn btn-primary" [disabled]="!valForm.valid">Registrar</button>
+</form>
+
+   
+    <!-- Link a login -->
+    <div class="text-center mt-4 text-sm">
+      <a routerLink="/login" class="text-purple-600 hover:underline">¿Ya tienes cuenta? Inicia sesión</a>
+    </div>
+  </div>
+</div>

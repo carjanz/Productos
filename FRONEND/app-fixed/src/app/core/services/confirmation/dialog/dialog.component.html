@@ -1,0 +1,65 @@
+<div class="dialog-container">
+
+  <!-- Dismiss button -->
+  <ng-container *ngIf="data.dismissible">
+    <div class="dismiss-button">
+      <button type="button" class="btn-close" aria-label="Cerrar" [matDialogClose]="undefined"></button>
+    </div>
+  </ng-container>
+
+  <!-- Content -->
+  <div class="content-container">
+
+    <!-- Icon -->
+    <ng-container *ngIf="data.icon?.show">
+      <div class="icon-container" [ngClass]="{
+                    'icon-color-primary': data.icon?.color === 'primary',
+                    'icon-color-accent': data.icon?.color === 'accent',
+                    'icon-color-warn': data.icon?.color === 'warn',
+                    'icon-color-basic': data.icon?.color === 'basic',
+                    'icon-color-info': data.icon?.color === 'info',
+                    'icon-color-success': data.icon?.color === 'success',
+                    'icon-color-warning': data.icon?.color === 'warning',
+                    'icon-color-error': data.icon?.color === 'error'
+                }">
+        <!-- Bootstrap icon fallback if none provided -->
+        <i class="bi bi-exclamation-circle-fill icon"></i>
+      </div>
+    </ng-container>
+
+    <!-- Text content -->
+    <ng-container *ngIf="data.title || data.message">
+      <div class="text-container">
+        <ng-container *ngIf="data.title">
+          <div class="title" [innerHTML]="data.title"></div>
+        </ng-container>
+
+        <ng-container *ngIf="data.message">
+          <div class="message overflow-auto" style="max-height: 250px" [innerHTML]="data.message"></div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Actions -->
+  <ng-container *ngIf="data.actions?.confirm?.show || data.actions?.cancel?.show">
+    <div class="actions-container d-flex justify-content-end gap-2">
+
+      <!-- Cancel -->
+      <ng-container *ngIf="data.actions?.cancel?.show">
+        <button class="btn btn-secondary" [matDialogClose]="'cancelled'">
+          {{ data.actions?.cancel?.label }}
+        </button>
+      </ng-container>
+
+      <!-- Confirm -->
+      <ng-container *ngIf="data.actions?.confirm?.show">
+        <button class="btn btn-primary" [matDialogClose]="'confirmed'">
+          {{ data.actions?.confirm?.label }}
+        </button>
+      </ng-container>
+
+    </div>
+  </ng-container>
+
+</div>

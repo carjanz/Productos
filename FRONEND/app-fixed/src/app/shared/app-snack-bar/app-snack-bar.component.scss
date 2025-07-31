@@ -1,0 +1,124 @@
+.app-snack-bar-container
+{
+    //@apply ring-1 ring-inset;
+    //@apply p-4 rounded flex items-center;
+    box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    --tw-ring-inset: inset;
+    padding: 12px;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    z-index: 99999;
+    
+}
+
+.app-snack-bar-message
+{
+    font-weight: 500;
+}
+
+/* All icons */
+.mat-icon {
+    color: currentColor !important;
+}
+
+.app-snack-bar-default-icon {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+    &:not(:empty) {
+        display: flex;
+        margin-right: 12px;
+    }
+}
+
+.app-snack-bar-content
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1;
+}
+
+.app-snack-bar-message
+{
+    display: none;
+    line-height: 20px;
+
+    &:not(:empty) {
+        display: block;
+    }
+}
+
+
+/* Dismiss button */
+.app-snack-bar-dismiss-button {
+    margin-left: 3px;
+    background-color: transparent;
+    border: none;
+
+    .mat-icon {
+        color: #DDDDDD !important;
+        width: 18px !important;
+        height: 18px !important;
+    }
+}
+
+
+// Sucess
+.container-success
+{
+    background-color: rgb(22 163 74);
+    --tw-ring-color: background-color: rgb(22 101 52);
+    //@apply bg-green-50 ring-green-400;
+}
+
+.icon-success,
+.message-success
+{
+    color: rgb(255 255 255);
+}
+
+
+// info
+.container-info
+{
+    background-color: rgb(14 116 144);
+    --tw-ring-color: background-color: rgb(22 78 99);
+}
+
+.icon-info,
+.message-info
+{
+    color: rgb(255 255 255);
+}
+
+
+// Warning
+.container-warning
+{
+    background-color: rgb(249 115 22);
+    --tw-ring-color: background-color: rgb(194 65 12);
+}
+
+.icon-warning,
+.message-warning
+{
+    color: rgb(255 255 255);
+}
+
+
+// Error
+.container-error
+{
+    background-color: rgb(220 38 38);
+    --tw-ring-color: background-color: rgb(153 27 27);
+}
+
+.icon-error,
+.message-error
+{
+    color: rgb(255 255 255);
+}

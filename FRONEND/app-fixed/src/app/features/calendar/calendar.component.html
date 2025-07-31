@@ -1,0 +1,42 @@
+ <div class="row">
+  <div class="col-md-12 text-center">
+     <h2 class="text-xl font-semibold text-gray-700 mb-4  gap-2 ">
+    <span class="text-blue-600">📅</span> Análisis financiero
+  </h2>
+  </div>
+  </div>
+
+<div class="calendar-wrapper">
+  <div class="calendar-header">
+    <button (click)="changeMonth(-1)">←</button>
+    <h2>{{ currentDate.toLocaleString('default', { month: 'long' }) | uppercase }} {{ selectedYear }}</h2>
+    <button (click)="changeMonth(1)">→</button>
+  </div>
+
+  <!-- Cabecera de días -->
+  <div class="calendar-header-row">
+    <div class="day-name">L</div>
+    <div class="day-name">M</div>
+    <div class="day-name">M</div>
+    <div class="day-name">J</div>
+    <div class="day-name">V</div>
+    <div class="day-name">S</div>
+    <div class="day-name">D</div>
+  </div>
+
+  <!-- Grilla del mes -->
+  <div class="calendar-grid">
+    <ng-container *ngFor="let day of calendarMatrix">
+      <div *ngIf="day; else emptyBox" class="day-box" [ngStyle]="{'background-color': day.bgColor}" [attr.title]="day.isHoliday ? day.holidayName : null">
+        <a [routerLink]="day.link" class="day-number">D-{{ day.day }}</a>
+        <div class="labels">
+         <a *ngIf="day.labelM" [routerLink]="day.link + '/m'" class="label m">M</a>
+          <a *ngIf="day.labelR" [routerLink]="day.link + '/r'" class="label r">R</a>
+        </div>
+      </div>
+      <ng-template #emptyBox>
+        <div class="empty-day"></div>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>
